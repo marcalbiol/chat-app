@@ -1,0 +1,17 @@
+<div class="chat-window">
+  <div class="chat-header">
+    <h2>{{ chatService.selectedChat?.name }}</h2>
+  </div>
+  <div class="chat-body" #messagesView>
+    <div class="messages" *ngFor="let message of chatService.selectedChat?.messages">
+      {{ message }}
+    </div>
+  </div>
+  <div class="chat-footer">
+    <form (ngSubmit)="sendMessage(message.value); message.value = ''">
+      <input type="text" #message placeholder="Escribe un mensaje...">
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+

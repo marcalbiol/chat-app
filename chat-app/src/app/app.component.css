@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+app-chat-view {
+  flex: 1;
+  margin-right: 20px;
+}
+
+app-chat-window {
+  flex: 2;
+}
