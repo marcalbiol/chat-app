@@ -8,19 +8,19 @@ const io = require('socket.io')(server, {
     }
 });
 
-io.on('connection', (socket) => {
-    console.log('Un usuario se ha conectado');
+io.on('connection', (socket, username) => {
+    console.log(`${username}, se ha conectado`);
 
     socket.on('disconnect', () => {
-        console.log('El usuario se ha desconectado');
+        console.log(`${username}, se ha desconectado`);
     });
 
-    socket.on('mensaje', (mensaje) => {
-        console.log(`Mensaje recibido: ${mensaje}`);
+    socket.on('mensaje', (mensaje, username) => {
+        console.log(`Mensaje recibido de ${username}: ${mensaje}`);
         io.emit('mensaje', mensaje);
     });
 });
 
 server.listen(3000, () => {
-    console.log('Servidor de Socket.IO escuchando en el puerto 3000');
+    console.log('escuchando en el puerto 3000');
 });

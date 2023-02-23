@@ -10,7 +10,6 @@ import {Socket} from "ngx-socket-io";
 export class ChatComponent implements OnInit{
   messages: string[] = [];
 
-
   constructor(public chatService: ServiceChatService, public socket: Socket) { }
 
   ngOnInit(): void {
@@ -24,15 +23,8 @@ export class ChatComponent implements OnInit{
     if (this.chatService.selectedChat) {
       this.socket.emit('mensaje', message, this.chatService.selectedChat.id);
       this.messages.push(`Yo: ${message}`);
-      this.scrollToBottom();
+
     }
   }
 
-   scrollToBottom(): void {
-    setTimeout(() => {
-      const element = document.getElementById('messagesView');
-      // @ts-ignore
-      element.scrollTop = element.scrollHeight;
-    }, 100);
-  }
 }
