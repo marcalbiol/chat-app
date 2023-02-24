@@ -1,3 +1,5 @@
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3">
@@ -7,29 +9,71 @@
         </div>
         <div class="card-body">
           <ul class="list-group">
-            <li *ngFor="let chat of chats" (click)="selectChat(chat)" class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let chat of chats" (click)="selectChat(chat)" (dblclick)="deleteChat($event, chat)"
+                class="list-group-item d-flex justify-content-between align-items-center">
               {{ chat.name }}
-              <span class="badge badge-primary badge-pill">{{ chat.unread }}</span>
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="col-md-9">
-      <div *ngIf="selectedChat" class="card">
-        <div class="card-header">
-          <h4>{{ selectedChat.name }}</h4>
+
+    <!--CHAT-->
+    <div class="col-md-9 chat-container">
+      <div class="buttons-top">
+        <div class="button-top-first">
+          <button type="submit" (click)="createNewChat()" class="btn btn-success">Crear chat</button>
         </div>
-        <div class="card-body">
-          <div class="messages" #messages>
-            <div *ngFor="let message of selectedChat.messages">{{ message }}</div>
+        <div class="button-top-second">
+          <button type="submit" (click)="changeUserName()" class="btn btn-primary">Cambiar nombre</button>
+        </div>
+        <div style="margin-left: 10px">
+          <h3>Hola, {{username}}</h3>
+        </div>
+      </div>
+      <section style="background-color: #eee;">
+          <div *ngIf="selectedChat" class="container py-5">
+
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10 col-lg-8 col-xl-6">
+
+                <div class="card" id="chat2">
+                  <div class="card-header d-flex justify-content-between align-items-center p-3">
+                    <h5 class="mb-0">{{selectedChat.name}}</h5>
+                    <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
+                      App</button>
+                  </div>
+                  <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow-y: auto" #scrollMe>
+
+                    <div class="d-flex flex-row justify-content-start">
+                    </div>
+
+                    <div *ngFor="let message of selectedChat.messages" class="d-flex flex-row justify-content-end mb-4" #messages>
+                      <div>
+                        <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{ message }}
+                        <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">{{getCurrentTime | date: 'shortTime'}}</p>
+                      </div>
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                           alt="avatar 1" style="width: 45px; height: 100%;">
+                    </div>
+                  </div>
+                  <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                         alt="avatar 1" style="width: 45px; height: 100%;">
+                    <form (ngSubmit)="sendMessage(messageInput.value)">
+                      <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
+                             placeholder="Type message">
+                    </form>
+                    <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+                    <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <form (ngSubmit)="sendMessage(messageInput.value)">
-            <input type="text" #messageInput class="form-control">
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </form>
-        </div>
+        </section>
       </div>
     </div>
   </div>
-</div>
+

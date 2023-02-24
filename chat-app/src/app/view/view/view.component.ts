@@ -1,12 +1,12 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Socket} from 'ngx-socket-io';
+import {Event} from "@angular/router";
 
 
 interface Chat {
   id: number;
   name: string;
   messages: string[];
-  unread: number;
 }
 
 @Component({
@@ -17,59 +17,72 @@ interface Chat {
 export class ViewComponent implements OnInit {
 
   @ViewChild('messages') messagesView!: ElementRef;
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef | any;
   chats: Chat[] = [
-    {id: 1, name: 'Chat 1', messages: [], unread: 0},
-    {id: 2, name: 'Chat 2', messages: [], unread: 0},
-    {id: 3, name: 'Chat 3', messages: [], unread: 0},
+    {id: 1, name: 'Chat 1', messages: []},
+    {id: 2, name: 'Chat 2', messages: []},
+    {id: 3, name: 'Chat 3', messages: []},
   ];
   selectedChat?: Chat;
-  @Output() usernameChanged = new EventEmitter<string | null>();
-  public username?: string | any;
+  // @Output() usernameChanged = new EventEmitter<string | null>();
+  @Output() public username?: string | any;
+
+  public getCurrentTime = new Date();
 
   constructor(public socket: Socket) {
   }
 
   ngOnInit(): void {
     this.createUser();
+
   }
 
   createUser() {
-    const username = prompt('Introduce tu nombre de usuario');
+    // const username = prompt('Introduce tu nombre de usuario', 'marc');
+    const username = 'marc';
     if (username) {
       this.username = username;
       this.socket.emit('username', this.username);
-    }else{
+    } else {
       this.socket.emit('nadie');
-      //FIXME
       this.createUser()
     }
   }
 
-  //TODO cambiar nombre de usuario
   changeUserName() {
-    this.usernameChanged.subscribe((username: string) => {
-      this.socket.emit('username', username);
-    });
+    const newName = prompt('Escribe tu nuevo nombre...', 'antonio')
+    this.username = newName;
+    this.socket.emit('changeName', newName);
 
-    this.usernameChanged.emit(this.username);
   }
 
-  //TODO crear nueva sala
-  createNewChat(){
-
+  createNewChat() {
+    const chatName = prompt('Nombre del chat')
+    const newChat = `${chatName} ${this.chats.length + 1}`
+    this.chats.push({messages: [], name: newChat, id: this.chats.length + 1})
   }
 
   selectChat(chat: Chat) {
     this.selectedChat = chat;
-    chat.unread = 0;
   }
 
   sendMessage(message: string) {
     if (this.selectedChat) {
       this.socket.emit('mensaje', message, this.username, this.selectedChat.id);
       this.selectedChat.messages.push(`${this.username} : ${message}`);
+
+      this.getCurrentTime.getTime();
+      this.scrollToBottom();
     }
   }
 
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
+  }
 
+  deleteChat(event: MouseEvent, chat: Chat) {
+    this.chats.splice(chat.id - 1, 1);
+  }
 }

@@ -11,11 +11,15 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
 
     socket.on('username', (username) => {
-        console.log(`Username received: ${username}`);
+        console.log(`Username conectado: ${username}`);
+    });
+
+    socket.on('changeName', (username) => {
+        console.log(`Nombre cambiado a: ${username}`);
     });
 
     socket.on('disconnect', () => {
-        console.log('A user has disconnected.');
+        console.log('user has discon');
     });
 
     socket.on('nadie', () => {
