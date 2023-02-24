@@ -1,7 +1,14 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core';
 import {Socket} from 'ngx-socket-io';
-import {Event} from "@angular/router";
 
+
+/* https://mdbootstrap.com/docs/standard/extended/chat/ */
+interface User {
+  id: number;
+  name: string;
+  pic: string;
+
+}
 
 interface Chat {
   id: number;
@@ -14,7 +21,7 @@ interface Chat {
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css'],
 })
-export class ViewComponent implements OnInit {
+export class ViewComponent implements OnInit, AfterViewInit {
 
   @ViewChild('messages') messagesView!: ElementRef;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef | any;
@@ -23,6 +30,12 @@ export class ViewComponent implements OnInit {
     {id: 2, name: 'Chat 2', messages: []},
     {id: 3, name: 'Chat 3', messages: []},
   ];
+
+  users: User[] = [
+    {id: 1, name: 'Paco', pic: ''},
+    {id: 2, name: 'Antonio', pic: ''},
+    {id: 3, name: 'Manolo', pic: ''},
+  ]
   selectedChat?: Chat;
   // @Output() usernameChanged = new EventEmitter<string | null>();
   @Output() public username?: string | any;
@@ -31,6 +44,10 @@ export class ViewComponent implements OnInit {
 
   constructor(public socket: Socket) {
   }
+
+  ngAfterViewInit(): void {
+        throw new Error('Method not implemented.');
+    }
 
   ngOnInit(): void {
     this.createUser();

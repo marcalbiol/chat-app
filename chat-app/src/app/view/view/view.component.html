@@ -1,5 +1,3 @@
-
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3">
@@ -30,50 +28,66 @@
         <div style="margin-left: 10px">
           <h3>Hola, {{username}}</h3>
         </div>
+
+      <div class="dropdown">
+        <button *ngIf="users" style="margin-left: 40px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Lista de usuarios conectados
+        </button>
+        <div class="dropdown-menu" *ngFor="let user of users" aria-labelledby="dropdownMenuButton">
+            <p>{{user.name}}</p>
+        </div>
       </div>
+
       <section style="background-color: #eee;">
-          <div *ngIf="selectedChat" class="container py-5">
+        <div *ngIf="selectedChat" class="container py-5">
 
-            <div class="row d-flex justify-content-center">
-              <div class="col-md-10 col-lg-8 col-xl-6">
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-6">
 
-                <div class="card" id="chat2">
-                  <div class="card-header d-flex justify-content-between align-items-center p-3">
-                    <h5 class="mb-0">{{selectedChat.name}}</h5>
-                    <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
-                      App</button>
+              <div class="card" id="chat2">
+                <div class="card-header d-flex justify-content-between align-items-center p-3">
+                  <h5 class="mb-0">{{selectedChat.name}}</h5>
+                  <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
+                    App
+                  </button>
+                </div>
+
+                <div class="card-body" data-mdb-perfect-scrollbar="true"
+                     style="position: relative; height: 500px; overflow-y: auto" #scrollMe>
+                  <div class="d-flex flex-row justify-content-start">
                   </div>
-                  <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow-y: auto" #scrollMe>
 
-                    <div class="d-flex flex-row justify-content-start">
+                  <!-- MENSAJES USUARIO -->
+                  <div *ngFor="let message of selectedChat.messages" class="d-flex flex-row justify-content-end mb-4"
+                       #messages>
+                    <div>
+                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{ message }}
+                      <p
+                        class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">{{getCurrentTime | date: 'shortTime'}}</p>
                     </div>
-
-                    <div *ngFor="let message of selectedChat.messages" class="d-flex flex-row justify-content-end mb-4" #messages>
-                      <div>
-                        <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{ message }}
-                        <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">{{getCurrentTime | date: 'shortTime'}}</p>
-                      </div>
-                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                           alt="avatar 1" style="width: 45px; height: 100%;">
-                    </div>
-                  </div>
-                  <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
                          alt="avatar 1" style="width: 45px; height: 100%;">
-                    <form (ngSubmit)="sendMessage(messageInput.value)">
-                      <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
-                             placeholder="Type message">
-                    </form>
-                    <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
-                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-                    <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
                   </div>
+                </div>
+
+                <!--INPUT TEXT-->
+                <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                       alt="avatar 1" style="width: 45px; height: 100%;">
+                  <form (ngSubmit)="sendMessage(messageInput.value)">
+                    <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
+                           placeholder="Type message">
+                  </form>
+                  <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                  <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+                  <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </div>
+</div>
 
