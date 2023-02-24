@@ -1,4 +1,4 @@
-import {Component, ElementRef, Injectable, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 
 
@@ -16,7 +16,6 @@ interface Chat {
 })
 export class ViewComponent implements OnInit {
 
-  username?: any;
   @ViewChild('messages') messagesView!: ElementRef;
   chats: Chat[] = [
     {id: 1, name: 'Chat 1', messages: [], unread: 0},
@@ -24,25 +23,40 @@ export class ViewComponent implements OnInit {
     {id: 3, name: 'Chat 3', messages: [], unread: 0},
   ];
   selectedChat?: Chat;
+  @Output() usernameChanged = new EventEmitter<string | null>();
+  public username?: string | any;
 
   constructor(public socket: Socket) {
   }
 
   ngOnInit(): void {
     this.createUser();
-    this.socket.on('mensaje', (mensaje: string, chatId: number) => {
-      const chat = this.chats.find(c => c.id === chatId);
-      if (chat) {
-        chat.messages.push(mensaje);
-        if (chat !== this.selectedChat) {
-          chat.unread++;
-        }
-      }
-    });
   }
 
-  createUser(){
-    this.username = prompt('Introduce tu nombre de usuario')
+  createUser() {
+    const username = prompt('Introduce tu nombre de usuario');
+    if (username) {
+      this.username = username;
+      this.socket.emit('username', this.username);
+    }else{
+      this.socket.emit('nadie');
+      //FIXME
+      this.createUser()
+    }
+  }
+
+  //TODO cambiar nombre de usuario
+  changeUserName() {
+    this.usernameChanged.subscribe((username: string) => {
+      this.socket.emit('username', username);
+    });
+
+    this.usernameChanged.emit(this.username);
+  }
+
+  //TODO crear nueva sala
+  createNewChat(){
+
   }
 
   selectChat(chat: Chat) {

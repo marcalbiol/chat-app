@@ -8,11 +8,18 @@ const io = require('socket.io')(server, {
     }
 });
 
-io.on('connection', (socket, username) => {
-    console.log(`${username}, se ha conectado`);
+io.on('connection', (socket) => {
+
+    socket.on('username', (username) => {
+        console.log(`Username received: ${username}`);
+    });
 
     socket.on('disconnect', () => {
-        console.log(`${username}, se ha desconectado`);
+        console.log('A user has disconnected.');
+    });
+
+    socket.on('nadie', () => {
+        console.log('nadie');
     });
 
     socket.on('mensaje', (mensaje, username) => {

@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
-import {ChatModule} from "./chat/chat.module";
 import {ViewModule} from "./view/view.module";
 
 
@@ -15,7 +14,6 @@ import {ViewModule} from "./view/view.module";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ChatModule,
     ViewModule,
   ],
   bootstrap: [AppComponent]
