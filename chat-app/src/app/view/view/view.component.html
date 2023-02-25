@@ -29,18 +29,20 @@
           <h3>Hola, {{username}}</h3>
         </div>
 
-      <div class="dropdown">
-        <button *ngIf="users" style="margin-left: 40px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Lista de usuarios conectados
-        </button>
-        <div class="dropdown-menu" *ngFor="let user of users" aria-labelledby="dropdownMenuButton">
+      <!--  <div class="dropdown">
+          <button *ngIf="users" style="margin-left: 40px" class="btn btn-secondary dropdown-toggle" type="button"
+                  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Lista de usuarios conectados
+          </button>
+          <div class="dropdown-menu" *ngFor="let user of users" aria-labelledby="dropdownMenuButton">
             <p>{{user.name}}</p>
-        </div>
+          </div>
+        </div>-->
+
+
       </div>
-
-      <section style="background-color: #eee;">
+      <section *ngIf="chats.length !== 0; else noChats" style="background-color: #eee;">
         <div *ngIf="selectedChat" class="container py-5">
-
           <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-6">
 
@@ -52,7 +54,7 @@
                   </button>
                 </div>
 
-                <div class="card-body" data-mdb-perfect-scrollbar="true"
+                <div *ngIf="chats" class="card-body" data-mdb-perfect-scrollbar="true"
                      style="position: relative; height: 500px; overflow-y: auto" #scrollMe>
                   <div class="d-flex flex-row justify-content-start">
                   </div>
@@ -68,26 +70,31 @@
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
                          alt="avatar 1" style="width: 45px; height: 100%;">
                   </div>
-                </div>
 
-                <!--INPUT TEXT-->
-                <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                       alt="avatar 1" style="width: 45px; height: 100%;">
-                  <form (ngSubmit)="sendMessage(messageInput.value)">
-                    <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
-                           placeholder="Type message">
-                  </form>
-                  <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
-                  <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-                  <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
+                  <!-- INPUT TEXT -->
+                  <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="avatar 1"
+                         style="width: 45px; height: 100%;">
+                    <form (ngSubmit)="sendMessage(messageInput.value)">
+                      <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
+                             placeholder="Type message">
+                    </form>
+
+
+                    <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+                    <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <ng-template #noChats>
+        <h2>No hay chats</h2>
+      </ng-template>
     </div>
   </div>
 </div>
-

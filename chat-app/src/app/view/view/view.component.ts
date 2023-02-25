@@ -1,18 +1,15 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core';
+import {ChangeDetectorRef , AfterViewInit, Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 
 
 /* https://mdbootstrap.com/docs/standard/extended/chat/ */
 interface User {
-  id: number;
-  name: string;
-  pic: string;
-
+  name: string | null;
 }
 
 interface Chat {
   id: number;
-  name: string;
+  name: string | unknown;
   messages: string[];
 }
 
@@ -21,73 +18,65 @@ interface Chat {
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css'],
 })
-export class ViewComponent implements OnInit, AfterViewInit {
+export class ViewComponent implements OnInit {
 
   @ViewChild('messages') messagesView!: ElementRef;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef | any;
-  chats: Chat[] = [
-    {id: 1, name: 'Chat 1', messages: []},
-    {id: 2, name: 'Chat 2', messages: []},
-    {id: 3, name: 'Chat 3', messages: []},
-  ];
+  chats: Chat[] = [];
+  newMessage: { [key: number]: string } = {};
+  users: User[] = [];
 
-  users: User[] = [
-    {id: 1, name: 'Paco', pic: ''},
-    {id: 2, name: 'Antonio', pic: ''},
-    {id: 3, name: 'Manolo', pic: ''},
-  ]
   selectedChat?: Chat;
   // @Output() usernameChanged = new EventEmitter<string | null>();
   @Output() public username?: string | any;
 
   public getCurrentTime = new Date();
 
-  constructor(public socket: Socket) {
+  constructor(public socket: Socket, private changes: ChangeDetectorRef) {
+    this.socket.on('chat-list', this.handleChatsUpdated.bind(this))
+    this.createUser();
   }
 
-  ngAfterViewInit(): void {
-        throw new Error('Method not implemented.');
-    }
 
   ngOnInit(): void {
-    this.createUser();
-
   }
 
   createUser() {
-    // const username = prompt('Introduce tu nombre de usuario', 'marc');
-    const username = 'marc';
+    const username = prompt('Introduce tu nombre de usuario', 'marc');
     if (username) {
+     this.users.push({name: username})
       this.username = username;
-      this.socket.emit('username', this.username);
+      this.socket.emit('username', this.users.map(value => value.name));
     } else {
-      this.socket.emit('nadie');
       this.createUser()
     }
   }
 
   changeUserName() {
     const newName = prompt('Escribe tu nuevo nombre...', 'antonio')
-    this.username = newName;
+    this.users.map(value => value.name = newName);
     this.socket.emit('changeName', newName);
 
   }
-
   createNewChat() {
-    const chatName = prompt('Nombre del chat')
-    const newChat = `${chatName} ${this.chats.length + 1}`
-    this.chats.push({messages: [], name: newChat, id: this.chats.length + 1})
+    const chatName = prompt('Nombre del chat', 'default')
+    this.socket.emit('create-room', chatName)
+  }
+
+  handleChatsUpdated(updatedChats: Chat[]) {
+    this.chats = updatedChats;
+    this.changes.detectChanges();
   }
 
   selectChat(chat: Chat) {
     this.selectedChat = chat;
   }
 
+
   sendMessage(message: string) {
     if (this.selectedChat) {
-      this.socket.emit('mensaje', message, this.username, this.selectedChat.id);
-      this.selectedChat.messages.push(`${this.username} : ${message}`);
-
+      console.log(this.selectedChat)
+      this.socket.emit('mensaje', this.selectedChat.id, message);
       this.getCurrentTime.getTime();
       this.scrollToBottom();
     }
@@ -100,6 +89,9 @@ export class ViewComponent implements OnInit, AfterViewInit {
   }
 
   deleteChat(event: MouseEvent, chat: Chat) {
-    this.chats.splice(chat.id - 1, 1);
+    console.log(chat)
+    console.log(chat.id)
+    this.chats.splice(chat.id, 1);
   }
+
 }

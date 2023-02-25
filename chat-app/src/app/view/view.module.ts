@@ -5,6 +5,8 @@ import {FormsModule} from "@angular/forms";
 import {SocketIoModule} from "ngx-socket-io";
 import {ServiceChatService} from "../service-chat.service";
 
+
+
 @NgModule({
   declarations: [
     ViewComponent
@@ -15,7 +17,7 @@ import {ServiceChatService} from "../service-chat.service";
   imports: [
     FormsModule,
     CommonModule,
-    SocketIoModule.forRoot({ url: 'http://localhost:3000' })
+    SocketIoModule.forRoot({url: 'http://localhost:3000'}),
   ],
   providers: [ServiceChatService]
 })
