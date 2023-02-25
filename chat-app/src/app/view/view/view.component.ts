@@ -34,6 +34,7 @@ export class ViewComponent implements OnInit {
 
   constructor(public socket: Socket, private changes: ChangeDetectorRef) {
     this.socket.on('chat-list', this.handleChatsUpdated.bind(this))
+    this.socket.on('newMensaje', this.handleNewMessages.bind(this))
     this.createUser();
   }
 
@@ -67,6 +68,12 @@ export class ViewComponent implements OnInit {
     this.chats = updatedChats;
     this.changes.detectChanges();
   }
+  handleNewMessages(updatedChats: string) {
+    this.selectedChat?.messages.push(updatedChats);
+    this.changes.detectChanges();
+  }
+
+
 
   selectChat(chat: Chat) {
     this.selectedChat = chat;

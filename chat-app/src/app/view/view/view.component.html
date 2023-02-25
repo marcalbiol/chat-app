@@ -70,21 +70,20 @@
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
                          alt="avatar 1" style="width: 45px; height: 100%;">
                   </div>
+                </div>
+                <!-- INPUT TEXT -->
+                <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="avatar 1"
+                       style="width: 45px; height: 100%;">
+                  <form (ngSubmit)="sendMessage(messageInput.value)">
+                    <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
+                           placeholder="Type message">
+                  </form>
 
-                  <!-- INPUT TEXT -->
-                  <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="avatar 1"
-                         style="width: 45px; height: 100%;">
-                    <form (ngSubmit)="sendMessage(messageInput.value)">
-                      <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
-                             placeholder="Type message">
-                    </form>
 
-
-                    <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
-                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-                    <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
-                  </div>
+                  <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                  <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+                  <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
                 </div>
               </div>
             </div>

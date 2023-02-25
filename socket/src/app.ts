@@ -48,6 +48,7 @@ io.on('connection', (socket) => {
 
     socket.on('mensaje', (chatId, message) => {
         const chat = chats.find(c => c.id === chatId);
+        console.log(chat)
         if (chat) {
             chat.messages.push(message);
             io.to(chat.name).emit('message', message);
