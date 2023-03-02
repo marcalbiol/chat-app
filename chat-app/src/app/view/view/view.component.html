@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
           <ul class="list-group">
-            <li *ngFor="let chat of chats" (click)="selectChat(chat)" (dblclick)="deleteChat($event, chat)"
+            <li (click)="selectChat(chat)" (dblclick)="deleteChat($event, chat)" *ngFor="let chat of chats"
                 class="list-group-item d-flex justify-content-between align-items-center">
               {{ chat.name }}
             </li>
@@ -20,24 +20,24 @@
     <div class="col-md-9 chat-container">
       <div class="buttons-top">
         <div class="button-top-first">
-          <button type="submit" (click)="createNewChat()" class="btn btn-success">Crear chat</button>
+          <button (click)="createNewChat()" class="btn btn-success" type="submit">Crear chat</button>
         </div>
         <div class="button-top-second">
-          <button type="submit" (click)="changeUserName()" class="btn btn-primary">Cambiar nombre</button>
+          <button (click)="changeUserName()" class="btn btn-primary" type="submit">Cambiar nombre</button>
         </div>
         <div style="margin-left: 10px">
           <h3>Hola, {{username}}</h3>
         </div>
 
-      <!--  <div class="dropdown">
-          <button *ngIf="users" style="margin-left: 40px" class="btn btn-secondary dropdown-toggle" type="button"
-                  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Lista de usuarios conectados
-          </button>
-          <div class="dropdown-menu" *ngFor="let user of users" aria-labelledby="dropdownMenuButton">
-            <p>{{user.name}}</p>
-          </div>
-        </div>-->
+        <!--  <div class="dropdown">
+            <button *ngIf="users" style="margin-left: 40px" class="btn btn-secondary dropdown-toggle" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Lista de usuarios conectados
+            </button>
+            <div class="dropdown-menu" *ngFor="let user of users" aria-labelledby="dropdownMenuButton">
+              <p>{{user.name}}</p>
+            </div>
+          </div>-->
 
 
       </div>
@@ -49,35 +49,36 @@
               <div class="card" id="chat2">
                 <div class="card-header d-flex justify-content-between align-items-center p-3">
                   <h5 class="mb-0">{{selectedChat.name}}</h5>
-                  <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
+                  <button class="btn btn-primary btn-sm" data-mdb-ripple-color="dark" type="button">Let's Chat
                     App
                   </button>
                 </div>
 
-                <div *ngIf="chats" class="card-body" data-mdb-perfect-scrollbar="true"
-                     style="position: relative; height: 500px; overflow-y: auto" #scrollMe>
+                <div #scrollMe *ngIf="chats" class="card-body"
+                     data-mdb-perfect-scrollbar="true" style="position: relative; height: 500px; overflow-y: auto">
                   <div class="d-flex flex-row justify-content-start">
                   </div>
 
                   <!-- MENSAJES USUARIO -->
-                  <div *ngFor="let message of selectedChat.messages" class="d-flex flex-row justify-content-end mb-4"
-                       #messages>
+                  <div #messages *ngFor="let message of selectedChat.messages"
+                       class="d-flex flex-row justify-content-end mb-4">
                     <div>
                       <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{ message }}
                       <p
                         class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">{{getCurrentTime | date: 'shortTime'}}</p>
                     </div>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                         alt="avatar 1" style="width: 45px; height: 100%;">
+                    <img alt="avatar 1"
+                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" style="width: 45px; height: 100%;">
                   </div>
                 </div>
                 <!-- INPUT TEXT -->
                 <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3 input-footer">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="avatar 1"
+                  <img alt="avatar 1"
+                       src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
                        style="width: 45px; height: 100%;">
                   <form (ngSubmit)="sendMessage(messageInput.value)">
-                    <input type="text" #messageInput class="form-control form-control-lg" id="exampleFormControlInput1"
-                           placeholder="Type message">
+                    <input #messageInput class="form-control form-control-lg" id="exampleFormControlInput1" placeholder="Type message"
+                           type="text">
                   </form>
 
 

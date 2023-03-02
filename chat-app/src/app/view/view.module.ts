@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ViewComponent } from './view/view.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ViewComponent} from './view/view.component';
 import {FormsModule} from "@angular/forms";
 import {SocketIoModule} from "ngx-socket-io";
 import {ServiceChatService} from "../service-chat.service";
-
 
 
 @NgModule({
@@ -21,4 +20,5 @@ import {ServiceChatService} from "../service-chat.service";
   ],
   providers: [ServiceChatService]
 })
-export class ViewModule { }
+export class ViewModule {
+}
